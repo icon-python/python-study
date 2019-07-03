@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>上传文件</title>
+    <link rel="stylesheet" href="../static/demo.css">
+    <script type="application/javascript">
+        function upload_file() {
+            var file = document.getElementById('file').files;
+            console.log(file);
+            if (file.length < 1) {
+                alert("请选择上传文件");
+            }
+        }
+    </script>
+</head>
+<body>
+
+<form action="/back_content" method="POST" enctype="multipart/form-data">
+    <div class="item">
+        <label for="file">上传图片</label>
+        <input type="file" name="file" id="file" multiple/>
+        <input type="submit" class="submit" onclick="upload_file()"/>
+    </div>
+</form>
+</body>
+</html>
+

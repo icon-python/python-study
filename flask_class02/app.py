@@ -45,7 +45,7 @@ def upload_file2():
             return '文件大小不能超过10M'
         if not f:
             return render_template('upload.html')
-        f.seek(0)
+        f.seek(0)  # f.read()读取后，重新定义指针到文件开头
         path = os.path.abspath(os.getcwd()) + '/static/'
         for dir, folder, filename in os.walk(path):
             for fn in filename:

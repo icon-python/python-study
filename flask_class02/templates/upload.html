@@ -10,15 +10,16 @@
             console.log(file);
             if (file.length < 1) {
                 alert("请选择上传文件");
-            }else{
-                alert("上传文件成功：" + file[0].name);
             }
+            // else{
+            //     alert("上传文件成功：" + file[0].name);
+            // }
         }
     </script>
 </head>
 <body>
 
-<form action="/back_content" method="POST" enctype="multipart/form-data">
+<form action="/upload" method="POST" enctype="multipart/form-data">
     <div class="item">
         <label for="file">上传图片</label>
         <input type="file" name="file" id="file" multiple/>

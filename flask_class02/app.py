@@ -41,7 +41,7 @@ def upload_file2():
             return f'图片格式不支持{f.filename.split(".")[1]}'
         if f.filename.__contains__(' '):
             return '不支持文件名包含空格'
-        if f.read().__len__() > 10 * 1024 * 1024 * 8:  # 10M
+        if f.read().__len__() > 10 * 1024 * 1024:  # 10M
             return '文件大小不能超过10M'
         if not f:
             return render_template('upload.html')

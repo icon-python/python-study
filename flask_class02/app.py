@@ -54,7 +54,7 @@ def upload_file2():
         while f.filename in back_content:
             f.filename = f.filename.rsplit(".", 1)[0] + str(i) + '.' + f.filename.rsplit(".", 1)[1]
             i += 1
-        f.save(path + f.filename)
+        f.save('static/'+f.filename)
         back_content.append(f.filename)
         bc = sorted(list(set(back_content)))
         return render_template('back_content.html', back_content=bc)

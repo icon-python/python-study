@@ -5,7 +5,8 @@
 # @File    : Class_View.py
 import os
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_from_directory
+from werkzeug.utils import secure_filename
 
 app = Flask(
     __name__,
@@ -14,7 +15,7 @@ app = Flask(
 )
 back_content = []
 ALLOWED_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif']
-
+app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -41,7 +42,7 @@ def upload_file2():
             return f'图片格式不支持{f.filename.split(".")[1]}'
         if f.filename.__contains__(' '):
             return '不支持文件名包含空格'
-        if f.read().__len__() > 10 * 1024 * 1024 * 8:  # 10M
+        if f.read().__len__() > 10 * 1024 * 1024:  # 10M
             return '文件大小不能超过10M'
         if not f:
             return render_template('upload.html')
@@ -54,10 +55,15 @@ def upload_file2():
         while f.filename in back_content:
             f.filename = f.filename.rsplit(".", 1)[0] + str(i) + '.' + f.filename.rsplit(".", 1)[1]
             i += 1
-        f.save(path + f.filename)
+        f.save('static/' + secure_filename(f.filename))
         back_content.append(f.filename)
         bc = sorted(list(set(back_content)))
         return render_template('back_content.html', back_content=bc)
+
+
+@app.route('/upload/<filename>')
+def get_filename(filename):
+    return send_from_directory(os.getcwd()+'/static/', filename)
 
 
 if __name__ == '__main__':

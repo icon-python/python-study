@@ -64,7 +64,7 @@ def upload_file2():
 @app.route('/upload/<filename>')
 def get_filename(filename):
     return send_from_directory(os.getcwd()+'/static/', filename)
-
+    
 
 if __name__ == '__main__':
     app.run(debug=True)

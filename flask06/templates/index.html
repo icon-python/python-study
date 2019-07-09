@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../static/jquery-1.12.4.min.js"></script>
+</head>
+<body>
+<form action="/upload" enctype="multipart/form-data" method="POST">
+    <input type="file" name="pic">
+    <input type="submit" >
+</form>
+<p onclick="upload()">点击发送请求</p>
+<script>
+    function upload() {
+        $.ajax({
+            type:"POST",
+            url:"/upload",
+            data:{"user":"admin"},
+            dataType:"json",
+            content_type:"application/json",
+            success: function () {
+                alert('success')
+            }
+        })
+    }
+</script>
+</body>
+</html>

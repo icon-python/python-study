@@ -16,7 +16,7 @@
         $.ajax({
             type:"POST",
             url:"/upload",
-            data:{"user":"admin"},
+            data:JSON.stringify({"user":"admin"}),
             dataType:"json",
             content_type:"application/json",
             success: function () {

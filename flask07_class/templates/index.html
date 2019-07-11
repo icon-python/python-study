@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/demo.css') }}">
+    <title>柠檬班</title>
+</head>
+<body>
+    {{ msg }}
+    {% for project in p %}
+        {% set name = project.name %}
+        {% if not loop.last %}
+        <div>序号：{{ loop.nextitem.name }}, 项目名称：{{ name }}， 接口数量：{{ project['interface_num'] }}， 创建时间：{{ project['create_time'] }}</div>
+        {% else %}
+        <div>序号：{{ loop.index }}, 项目名称：{{ name }}， 接口数量：{{ project['interface_num'] }}， 创建时间：{{ project['create_time'] }}</div>
+        {% endif %}
+    {% endfor %}
+{#    <div>#}
+{#        项目名称：项目1， 接口数量：23， 创建时间：2019/07/11#}
+{#    </div>#}
+{#    <div>#}
+{#        项目名称：项目1， 接口数量：23， 创建时间：2019/07/11#}
+{#    </div>#}
+{#    <div>#}
+{#        项目名称：项目1， 接口数量：23， 创建时间：2019/07/11#}
+{#    </div>#}
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='demo.css') }}">
+</head>
+<body>
+<p>登录页</p>
+<p>jinja2演示</p>
+{{ projects }}
+<p>flash</p>
+{{ get_flashed_messages() }}
+<p>jinja2循环语句</p>
+{% for project in projects %}
+    {% set name = project.name %}
+    {% if not loop.last %}
+        <div>序号：{{ loop.nextitem.name }}, 项目名称：{{ name }}， 接口数量：{{ project['interface_num'] }}，
+            创建时间：{{ project['create_time'] }}</div>
+    {% else %}
+        <div>序号：{{ loop.index }}, 项目名称：{{ name }}， 接口数量：{{ project['interface_num'] }}，
+            创建时间：{{ project['create_time'] }}</div>
+    {% endif %}
+{% endfor %}
+</body>
+</html>

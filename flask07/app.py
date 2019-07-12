@@ -40,7 +40,7 @@ def index():
         # return redirect('/login')
         abort(500)
         # abort(401)
-        # raise UserError("user error")
+        # raise UserError("user error")  # 自定义错误类型
     return redirect(url_for('log'))
 
 

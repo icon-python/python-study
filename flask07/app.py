@@ -17,24 +17,29 @@ class UserError(Exception):
 
 # URL 和 视图函数： 绑定关系==》 endpoint 端点
 # 全局错误处理
-@app.errorhandler(UserError)
-def server_error(error):
-    print(error, type(error))  # error:<class '__main__.UserError'>
-    return render_template('error_500.html')
+# @app.errorhandler(UserError)
+def server_error_500(error):
+    # print(error, type(error))  # error:<class '__main__.UserError'>
+    return render_template('error_500.html'), 500
+    # return 'bad request!', 500
+
+
+# 采用集中注册
+app.register_error_handler(500, server_error_500)
 
 
 @app.errorhandler(401)
 def server_error(error):
     # return render_template('error_401.html')
-    return jsonify({"msg": error.__dict__}), 201
+    return jsonify({"msg": error.__dict__}), 401
 
 
 @app.route('/')
 def index():
     if not request.args.get('username'):
         # return redirect('/login')
-        # abort(500)
-        abort(401)
+        abort(500)
+        # abort(401)
         # raise UserError("user error")
     return redirect(url_for('log'))
 
@@ -45,7 +50,7 @@ def login():
 
 
 @app.route('/projects')
-def projects():
+def all_projects():
     projects = [
         {"name": "项目1", "interface_num": 23, "create_time": "2019/1"},
         {"name": "项目2", "interface_num": 24, "create_time": "2019/1"},

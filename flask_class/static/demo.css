@@ -1,0 +1,88 @@
+.upload {
+    text-decoration: none;
+    font: bold 26px/32px "Microsoft JhengHei";
+    color: #49a0ff;
+
+}
+
+.upload:hover {
+    color: #71ddff;
+}
+
+.content div {
+    font: bold 26px/32px "Microsoft JhengHei";
+    color: rgba(97, 97, 97, 0.78);
+    text-align: center;
+}
+
+.content {
+    width: 20%;
+    margin: 10% 40% auto auto;
+    display: block;
+    /*border: 1px solid red;*/
+}
+
+.content p {
+    text-align: center;
+}
+
+/*upload.html样式*/
+.item label {
+    display: inline-block;
+    width: 100px;
+    height: 30px;
+    text-align: center;
+    color: #fff;
+    line-height: 30px;
+    background-color: #7cc8eb;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#file {
+    display: none;
+}
+
+.submit {
+    outline: none;
+    background: #7cc8eb;
+    color: white;
+    border: 0;
+    cursor: pointer;
+    width: 60px;
+    height: 30px;
+    border-radius: 5px;
+}
+
+.submit:hover {
+    background: #98f0ff;
+}
+
+.success {
+    width: 30%;
+    margin: 5% 35% auto auto;
+    display: block;
+    /*border: 1px solid red;*/
+}
+
+.success p {
+    font: bold 26px/32px "Microsoft JhengHei";
+    color: rgba(97, 97, 97, 0.78);
+}
+
+.success h2 {
+    text-indent: 45px;
+}
+
+h2 a {
+    text-decoration: none;
+    color: #ff8989;
+}
+
+h2 a:hover {
+    color: #ffb989;
+}
+
+body {
+    background: #e5f3ff;
+}

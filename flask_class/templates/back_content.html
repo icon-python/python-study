@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>uploader</title>
+    <link rel="stylesheet" href="../static/demo.css">
+</head>
+<body>
+<div class="success">
+    <p>当前可访问的所有资源:</p>
+    <h2>
+        <a href="http://localhost:5000/">http://localhost:5000/</a>
+    </h2>
+    {% for fn in back_content %}
+    <h2>
+        <a href=http://localhost:5000/static/{{fn}}>http://localhost:5000/static/{{fn}}</a>
+    </h2>
+    {% endfor %}
+</div>
+</body>
+</html>

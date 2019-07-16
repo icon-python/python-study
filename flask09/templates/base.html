@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flask-{% block title %}默认标题{% endblock %}</title>
+</head>
+<body>
+<nav>公共导航</nav>
+    {% block content-%}默认主体{%-endblock %}
+<foot>公共底部</foot>
+</body>
+</html>

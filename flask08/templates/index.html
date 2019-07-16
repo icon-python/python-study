@@ -9,8 +9,10 @@
 <p>登录页</p>
 <p>jinja2演示</p>
 {{ projects }}
-<p>flash</p>
-{{ get_flashed_messages() }}
+<p><a href="{{ url_for('just_flash') }}">flash</a></p>
+{% for message in get_flashed_messages() %}
+    <div>{{ message }}</div>
+{% endfor %}
 <p>jinja2循环语句</p>
 {% for project in projects %}
     {% set name = project.name %}
@@ -35,7 +37,7 @@
     {% if my_json is jsoned %}
         {{ my_json }}
     {% else %}
-         not a json
+        not a json
     {% endif %}
 </p>
 <p>过滤器</p>
@@ -53,8 +55,12 @@
 {% endif %}
 <p>3.context_processor</p>
 <p>
-{#    {{ get_n() }}<br>#}
+    {#    {{ get_n() }}<br>#}
     {{ temp_var }}
+</p>
+<p>4.局部模板</p>
+<p>
+    {% include '_banner.html' %}
 </p>
 </body>
 </html>

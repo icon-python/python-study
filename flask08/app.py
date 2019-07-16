@@ -6,9 +6,10 @@
 import json
 from _datetime import datetime
 import time
-
+import jinja2
 from flask import Flask, render_template, request, redirect, abort, url_for, jsonify, flash, session
 
+# jinja2.environment
 app = Flask(__name__)
 app.secret_key = '123456'
 
@@ -25,8 +26,8 @@ def server_error(error):
 
 @app.errorhandler(401)
 def server_error(error):
-    # return render_template('error_401.html')
-    return jsonify({"msg": error.__dict__}), 201
+    return render_template('error_401.html')
+    # return jsonify({"msg": error.__dict__}), 201
 
 
 @app.route('/')
@@ -45,10 +46,10 @@ def login(username):
     return render_template('index.html')
 
 
-# @app.template_filter('s_time')
+@app.template_filter('s_time')
 def strf_time(timestamp):
     return datetime.fromtimestamp(timestamp)
-app.add_template_filter(strf_time,'s_time' )
+# app.add_template_filter(strf_time, 's_time')
 
 
 @app.template_test()
@@ -58,15 +59,20 @@ def jsoned(my_str):
         return True
     except:
         return False
+
+
 # app.jinja_env.globals['jsoned'] =jsoned
 
 
-@app.context_processor
+# @app.context_processor
 def add_ctc():
     def get_now(timestamp):
         return datetime.fromtimestamp(timestamp)
 
     return {'get_n': get_now, 'temp_var': 20}
+
+
+app.context_processor(add_ctc)
 
 
 @app.route('/projects')
@@ -76,9 +82,14 @@ def projects():
         {"name": "projecttwo", "interface_num": 24, "create_time": int(time.time())},
         {"name": "projectthree", "interface_num": 25, "create_time": int(time.time())},
     ]
-    flash("flash test")
     # return jsonify({"msg":[p for p in projects]})
     return render_template('index.html', projects=projects_all, msg=None, my_json='{"username":"admin"}')
+
+
+@app.route('/flash')
+def just_flash():
+    flash('I am flash, who is looking for me?')
+    return redirect(url_for('projects'))
 
 
 if __name__ == '__main__':

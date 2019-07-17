@@ -16,25 +16,22 @@
 import os
 from _datetime import datetime
 import time
-from flask import Flask, render_template, request, jsonify, url_for, redirect, current_app, abort, Response, flash
+from flask import Flask, render_template, request, jsonify, url_for, redirect, abort, Response, flash
 
 app = Flask(__name__)
-app.secret_key = os.getenv("SECRET kEY", 'ss')
-blogs = [
-    {"id": "1", "title": "文章1", "create_time": "2019-07-17 16:17", "author": "tom", "content": "文章内容"},
-    {"id": "2", "title": "文章2", "create_time": "2019-07-17 16:18", "author": "tom", "content": "文章内容"},
-    {"id": "3", "title": "文章3", "create_time": "2019-07-17 16:19", "author": "tom", "content": "文章内容"},
-]
+app.secret_key = os.getenv("SECRET KEY", 'ss')
+with open('blogs.txt', 'r', encoding='utf-8') as f:
+    blogs = eval(f.read())
 
 
 @app.route('/')
-@app.route('/blog', methods=["GET", "POST"])
+@app.route('/blog/', methods=["GET", "POST"])
 def blog():
     if request.method == "GET":
-        return render_template("blog.html", blogs=sorted(blogs, key=lambda lis: lis["create_time"], reverse=True)[:2])
-    # response = Response(render_template('error400.html', msg="不支持当前请求方式"), status=400,
-    #                     content_type="text/html;charset=utf-8")
-    # abort(response)
+        return render_template("blog.html", blogs=sorted(blogs, key=lambda lis: lis["create_time"], reverse=True)[:20])
+    response = Response(render_template('error400.html', msg="不支持当前请求方式"), status=400,
+                        content_type="text/html;charset=utf-8")
+    abort(response)
 
 
 @app.route('/blog/add', methods=["GET", "POST"])
@@ -46,13 +43,15 @@ def blog_add():
     content = request.form.get("content")
     if validator_content(content):
         if validator_author(author):
-            blogs.append(dict(id=len(blogs)+1,
+            blogs.append(dict(id=len(blogs) + 1,
                               title=title,
                               author=author,
                               content=content,
-                              create_time=datetime.fromtimestamp(int(time.time()))
+                              create_time=str(datetime.fromtimestamp(int(time.time())))
                               ))
-            return render_template('success.html', title=title)
+            with open('blogs.txt', 'w+', encoding='utf-8') as f:
+                f.write(str(blogs))
+            return redirect(url_for('success', title=title))
         else:
             flash("作者字数不能超过10且不能为空")
     else:
@@ -72,15 +71,6 @@ def validator_author(author):
     return False
 
 
-@app.route('/getblog/<int:id>')
-def get_blog(id):
-    return jsonify({"id": id, "title": "title"})
-
-
-# @app.route('/favicon.ico')
-# def favicon():
-#     # 后端返回文件给前端（浏览器），send_static_file是Flask框架自带的函数
-#     return current_app.send_static_file('static/image/favicon.ico')
 @app.context_processor
 def add_ctc():
     def format_time(timestamp):
@@ -89,5 +79,13 @@ def add_ctc():
     return {'format_time': format_time, 'temp_var': 20}
 
 
+@app.route('/blog/add/success/<title>')
+def success(title):
+    # title = request.args.get('title')
+    return render_template('success.html', title=title)
+
+@app.route('/test')
+def test():
+    return render_template('test.html', blogs=blogs)
 if __name__ == '__main__':
     app.run(debug=True)

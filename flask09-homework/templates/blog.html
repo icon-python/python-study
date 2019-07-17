@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}首页{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/blog.css' ) }}">
+{% endblock styles %}
+
+{% block script %}
+{#    <script type="application/javascript">#}
+{#        $.ajax({#}
+{#            url: '/getblog/1',#}
+{#            type: 'get',#}
+{#            success: function (data) {#}
+{#                $('.title').append(data.title);#}
+{#            }#}
+{#        });#}
+{#    </script>#}
+{% endblock %}
+
+{% block content %}
+    <ul>
+    {% for blog in blogs %}
+        <li>
+            <div class="content">
+                <div class="title">{{ blog.title }}</div>
+                <div class="desc">作者：{{ blog.author }}      创建时间：{{ blog.create_time }}</div>
+                <div class="paragraph">{{ blog.content }}</div>
+            </div>
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock content %}

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}首页{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/blog_add.css' ) }}">
+{% endblock styles %}
+
+{% block script %}
+    {#    <script type="application/javascript">#}
+    {#        $.ajax({#}
+    {#            url: '/getblog/1',#}
+    {#            type: 'get',#}
+    {#            success: function (data) {#}
+    {#                $('.title').append(data.title);#}
+    {#            }#}
+    {#        });#}
+    {#    </script>#}
+{% endblock %}
+
+{% block content %}
+    <form action="/blog/add" method="POST">
+        <label for="title">请输入文章标题：</label>
+        <input type="text" name="title" id="title"><br>
+        <label for="author">请输入文章作者：</label>
+        <input type="text" name="author" id="author"><br>
+        <label for="content">请输入文章内容：</label>
+        <textarea name="content" id="content"></textarea><br>
+        {% for msg in get_flashed_messages() %}
+        <div>{{ msg }}</div><br>
+        {% endfor %}
+        <input type="submit" value="发布">
+    </form>
+{% endblock %}

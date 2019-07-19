@@ -23,16 +23,32 @@
 
 {% block content %}
     <form action="/blog/add" method="POST">
+        {{ form.hidden_tag() }}
+        {{ form.title.label() }}
+        {{ form.title() }}<br>
+        {{ form.author.label() }}
+        {{ form.author() }}
+        {% if form.author.errors %}
+        {{ form.author.errors }}
+        {% endif %}<br>
+
+        {{ form.content.label() }}
+        {{ form.content() }}
+        {% if form.content.errors %}
+        {{ form.content.errors }}
+        {% endif %}<br>
+
+        {{ form.submit() }}
 {#        <input class="form-control form-control-lg" type="text" placeholder=".form-control-lg">#}
-        <label for="title">请输入文章标题：</label>
-        <input type="text" name="title" id="title" class="form-control form-control-lg"><br>
-        <label for="author">请输入文章作者：</label>
-        <input type="text" name="author" id="author" class="form-control form-control-lg"><br>
-        <label for="content">请输入文章内容：</label>
-        <textarea name="content" id="content" class="form-control"  rows="3" cols="50"></textarea><br>
-        {% for msg in get_flashed_messages() %}
-        <div>{{ msg }}</div><br>
-        {% endfor %}
-        <input type="submit" value="发布">
+{#        <label for="title">请输入文章标题：</label>#}
+{#        <input type="text" name="title" id="title" class="form-control form-control-lg"><br>#}
+{#        <label for="author">请输入文章作者：</label>#}
+{#        <input type="text" name="author" id="author" class="form-control form-control-lg"><br>#}
+{#        <label for="content">请输入文章内容：</label>#}
+{#        <textarea name="content" id="content" class="form-control"  rows="3" cols="50"></textarea><br>#}
+{#        {% for msg in get_flashed_messages() %}#}
+{#        <div>{{ msg }}</div><br>#}
+{#        {% endfor %}#}
+{#        <input type="submit" value="发布">#}
     </form>
 {% endblock %}

@@ -17,6 +17,7 @@ import os
 from _datetime import datetime
 import time
 from flask import Flask, render_template, request, jsonify, url_for, redirect, abort, Response, flash
+from test.flask09_homework2.forms import AddForm
 
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET KEY", 'ss')
@@ -33,7 +34,7 @@ def blog():
     if request.method == "POST":
         title = request.form.get('search')
         try:
-            bid = [blog["id"] for blog in blogs if blog["title"]==title][0]
+            bid = [blog["id"] for blog in blogs if blog["title"] == title][0]
             return redirect(url_for('blog_id', bid=bid))
         except:
             abort(400)
@@ -42,9 +43,6 @@ def blog():
 @app.route('/blog/<int:bid>', methods=["GET", "POST"])
 def blog_id(bid):
     if bid > len(blogs):
-        # response = Response(render_template('error400.html', msg="不存在该文章"), status=400,
-        #                     content_type="text/html;charset=utf-8")
-        # abort(response)
         abort(400)
     if request.method in ["GET", "POST"]:
         return render_template('blog_bid.html', blog=blogs[bid - 1])
@@ -52,44 +50,57 @@ def blog_id(bid):
 
 @app.route('/blog/add', methods=["GET", "POST"])
 def blog_add():
+    form = AddForm(request.form)
     if request.method == "GET":
-        return render_template("blog_add.html")
-    title = request.form.get("title")
-    author = request.form.get("author")
-    content = request.form.get("content")
-    if validator_content(content):
-        if validator_author(author):
-            blogs.append(dict(id=len(blogs) + 1,
-                              title=title,
-                              author=author,
-                              content=content,
-                              create_time=str(datetime.fromtimestamp(int(time.time())))
-                              ))
-            with open('blogs.txt', 'w+', encoding='utf-8') as f:
-                f.write(str(blogs))
-            return redirect(url_for('success', title=title))
-        else:
-            flash("作者字数不能超过10且不能为空")
+        return render_template("blog_add.html", form=form)
+    if form.validate():
+        blogs.append(dict(id=len(blogs) + 1,
+                          title=form.data['title'],
+                          author=form.data['author'],
+                          content=form.data['content'],
+                          create_time=str(datetime.fromtimestamp(int(time.time())))
+                          ))
+        with open('blogs.txt', 'w+', encoding='utf-8') as f:
+            f.write(str(blogs))
+        return redirect(url_for('success', title=form.data['title']))
     else:
-        flash("字数不能大于等于140且不能为空")
-    return redirect(url_for('blog_add'))
+        return redirect(url_for('blog_add'))
+    # title = request.form.get("title")
+    # author = request.form.get("author")
+    # content = request.form.get("content")
+    # if validator_content(content):
+    #     if validator_author(author):
+    #         blogs.append(dict(id=len(blogs) + 1,
+    #                           title=title,
+    #                           author=author,
+    #                           content=content,
+    #                           create_time=str(datetime.fromtimestamp(int(time.time())))
+    #                           ))
+    #         with open('blogs.txt', 'w+', encoding='utf-8') as f:
+    #             f.write(str(blogs))
+    #         return redirect(url_for('success', title=title))
+    #     else:
+    #         flash("作者字数不能超过10且不能为空")
+    # else:
+    #     flash("字数不能大于等于140且不能为空")
+    # return redirect(url_for('blog_add'))
+
+
+# def validator_content(content):
+#     if len(content) in range(1, 140):
+#         return True
+#     return False
+#
+#
+# def validator_author(author):
+#     if len(author) in range(1, 10):
+#         return True
+#     return False
 
 
 @app.errorhandler(400)
 def error400(e):
-    return render_template("error400.html", msg="不存在该文章"),400
-
-
-def validator_content(content):
-    if len(content) in range(1, 140):
-        return True
-    return False
-
-
-def validator_author(author):
-    if len(author) in range(1, 10):
-        return True
-    return False
+    return render_template("error400.html", msg="不存在该文章"), 400
 
 
 @app.context_processor
@@ -102,7 +113,6 @@ def add_ctc():
 
 @app.route('/blog/add/success/<title>')
 def success(title):
-    # title = request.args.get('title')
     return render_template('success.html', title=title)
 
 
@@ -112,4 +122,5 @@ def tes():
 
 
 if __name__ == '__main__':
-    app.run(debug=False, host='0.0.0.0')
+    # app.run(debug=False, host='0.0.0.0')
+    app.run(debug=True)

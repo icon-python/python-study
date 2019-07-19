@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>柠檬班 - {% block nav_title %}默认标题{% endblock %} </title>
+</head>
+<body>
+    <p>首页</p>
+    <p>项目管理</p>
+    <p>接口管理</p>
+    <p>测试用例管理</p>
+    <p> 赞助商 </p>
+    <hr/>
+
+    {% block content_str %}
+        这里表示每个子模板里面不同的内容
+    {% endblock %}
+
+    <hr/>
+{#公共区域，联系我们#}
+    <p>联系我们</p>
+
+
+</body>
+</html>

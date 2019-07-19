@@ -1,0 +1,11 @@
+{% macro render_field(mylist) %}
+    {{ mylist[0] }}
+    {{ mylist[1] }}
+    {{ mylist[2] }}
+    {{ mylist[3] }}
+{% endmacro %}
+
+{% macro render_field_2(field) %}
+    {{ field.label }}
+    {{ field }}
+{% endmacro %}

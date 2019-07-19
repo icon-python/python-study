@@ -1,0 +1,15 @@
+{% extends 'base.html'%}
+
+
+{% block nav_title %} {{ super() }}首页{% endblock %}
+
+{% block content_str %}
+    {{ super() }}
+    <p>杰克大佬负责 8 个项目的测试工作</p>
+    {% include "_project.html" %}
+
+    {% from "_macros.html" import render_field%}
+    {% set data = ['hello','world', 'icon', 'sukida'] %}
+    {{ render_field(data) }}
+
+{% endblock %}

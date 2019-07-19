@@ -43,6 +43,9 @@ def blog():
 @app.route('/blog/<int:bid>', methods=["GET", "POST"])
 def blog_id(bid):
     if bid > len(blogs):
+        # response = Response(render_template('error400.html', msg="不存在该文章"), status=400,
+        #                     content_type="text/html;charset=utf-8")
+        # abort(response)
         abort(400)
     if request.method in ["GET", "POST"]:
         return render_template('blog_bid.html', blog=blogs[bid - 1])

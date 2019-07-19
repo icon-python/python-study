@@ -24,21 +24,26 @@
 {% block content %}
     <form action="/blog/add" method="POST">
         {{ form.hidden_tag() }}
-        {{ form.title.label() }}
-        {{ form.title() }}<br>
-        {{ form.author.label() }}
-        {{ form.author() }}
-        {% if form.author.errors %}
-        {{ form.author.errors }}
-        {% endif %}<br>
-
-        {{ form.content.label() }}
-        {{ form.content() }}
-        {% if form.content.errors %}
-        {{ form.content.errors }}
-        {% endif %}<br>
-
-        {{ form.submit() }}
+        {% from "macros.html" import form_field %}
+            {{ form_field(form.title) }}<br>
+            {{ form_field(form.author) }}<br>
+            {{ form_field(form.content) }}<br>
+            {{ form.submit() }}
+{#        {{ form.title.label() }}#}
+{#        {{ form.title() }}<br>#}
+{#        {{ form.author.label() }}#}
+{#        {{ form.author() }}#}
+{#        {% for msg in form.author.errors %}#}
+{#        <div class="error" style="color: red">{{ msg }}</div>#}
+{#        {% endfor %}<br>#}
+{##}
+{#        {{ form.content.label() }}#}
+{#        {{ form.content() }}#}
+{#        {% for msg in form.content.errors %}#}
+{#        <div class="error" style="color: red">{{ msg }}</div>#}
+{#        {% endfor %}<br>#}
+{##}
+{#        {{ form.submit() }}#}
 {#        <input class="form-control form-control-lg" type="text" placeholder=".form-control-lg">#}
 {#        <label for="title">请输入文章标题：</label>#}
 {#        <input type="text" name="title" id="title" class="form-control form-control-lg"><br>#}

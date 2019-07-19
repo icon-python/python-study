@@ -53,7 +53,10 @@ def blog_add():
     form = AddForm(request.form)
     if request.method == "GET":
         return render_template("blog_add.html", form=form)
-    if form.validate():
+    if form.validate_on_submit():
+        # a = form.data
+        # print(a)
+        # del form.data['csrf_token']
         blogs.append(dict(id=len(blogs) + 1,
                           title=form.data['title'],
                           author=form.data['author'],
@@ -64,7 +67,7 @@ def blog_add():
             f.write(str(blogs))
         return redirect(url_for('success', title=form.data['title']))
     else:
-        return redirect(url_for('blog_add'))
+        return render_template("blog_add.html", form=form)
     # title = request.form.get("title")
     # author = request.form.get("author")
     # content = request.form.get("content")

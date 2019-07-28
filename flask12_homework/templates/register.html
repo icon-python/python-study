@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}注册{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+{% endblock styles %}
+
+{% block script %}
+{% endblock %}
+
+{% block content %}
+    <form action="/register" method="POST">
+        {{ register_form.hidden_tag() }}
+        {% from "macros.html" import form_field %}
+            {{ form_field(register_form.phone) }}<br>
+            {{ form_field(register_form.pwd) }}<br>
+            {{ form_field(register_form.confirm_pwd) }}<br>
+            {{ register_form.submit() }}
+        <div>已有账户？<a href="/login">立即登录</a></div>
+    </form>
+{% endblock %}

@@ -108,7 +108,7 @@ def blog():
     if request.method == "POST":
         title = request.form.get('search')
         b = Blog.query.filter_by(title=title).first_or_404()
-        return redirect(url_for('blog_id', blog=b))
+        return redirect(url_for('blog_id', bid=b.id))
 
 
 @app.route('/blog/<int:bid>', methods=["GET", "POST"], endpoint='blog_id')

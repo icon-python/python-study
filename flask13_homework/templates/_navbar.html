@@ -1,0 +1,76 @@
+<script>
+    $(function () {
+        $.ajax({
+            type: "GET",
+            url: '/get_fans_followers',
+            dataType: 'json',
+            success: function (data) {
+                $('#fans').append(data.fans.length);
+                $('#followers').append(data.followers.length)
+            }
+        });
+    })
+</script>
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="position: fixed;width: 100%; z-index: 99;">
+    <a class="navbar-brand" href="/blog/" style="margin-left: 100px;color: #6c757d;">个人博客</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+            aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+                <a class="nav-link" href="/blog/add" id="add_blog">创建博客</a>
+            </li>
+        </ul>
+        <span style="margin-right: 20px;color: #6c757d;">
+        {% if phone %}
+            欢迎您，{{ phone }},
+            粉丝数：
+            <span id="fans" style="margin-right: 8px"></span>
+            关注者：
+            <span id="followers"></span>
+        {% endif %}
+
+    </span>
+        <form class="form-inline my-2 my-lg-0" action="/blog/" method="POST">
+            <input class="form-control mr-sm-2" type="search" placeholder="请输入文章标题" name="search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索</button>
+        </form>
+    </div>
+</nav>
+<script>
+    $('#fans').click(function () {
+        $.ajax({
+            type: "POST",
+            url: "/get_fans_followers",
+            dataType: "json",
+            success: function (data) {
+                var ph = data.fans;
+                var phA = new Array();
+                for (p in ph) {
+                    phA.push(ph[p])
+                }
+                $.unique(phA);
+                alert('粉丝：' + phA);
+            }
+        })
+    });
+    $('#followers').click(function () {
+        $.ajax({
+            type: "POST",
+            url: "/get_fans_followers",
+            dataType: "json",
+            success: function (data) {
+                var ph = data.followers;
+                var phA = new Array();
+                for (p in ph) {
+                    phA.push(ph[p])
+                }
+                $.unique(phA);
+                alert('关注的人：'+ phA);
+            }
+        })
+    })
+</script>

@@ -1,0 +1,50 @@
+{#{% extends "base.html" %}#}
+{#{% block title %}注册{% endblock %}#}
+{##}
+{#{% block styles %}#}
+{#    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">#}
+{##}
+{#{% endblock styles %}#}
+{##}
+{#{% block script %}#}
+{#{% endblock %}#}
+{##}
+{#{% block content %}#}
+{#    <form action="/register" method="POST">#}
+{#        {{ register_form.hidden_tag() }}#}
+{#        {% from "macros.html" import form_field %}#}
+{#            {{ form_field(register_form.phone) }}<br>#}
+{#            {{ form_field(register_form.pwd) }}<br>#}
+{#            {{ form_field(register_form.confirm_pwd) }}<br>#}
+{#            {{ register_form.submit() }}#}
+{#        <div>已有账户？<a href="/login">立即登录</a></div>#}
+{#    </form>#}
+{#{% endblock %}#}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>注册</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+
+  <form class="box" action="/register" method="POST">
+  	  <h1>个人博客</h1>
+{#    <input type="text" placeholder="Your name">#}
+{#    <input type="password"  placeholder="Your email">#}
+{#    <input type="submit" class="contact-form-btn" value="Send">#}
+      {{ register_form.hidden_tag() }}
+        {% from "macros.html" import form_field_no_label %}
+            {{ form_field_no_label(register_form.phone) }}
+            {{ form_field_no_label(register_form.pwd) }}
+            {{ form_field_no_label(register_form.confirm_pwd) }}
+            {{ register_form.submit() }}
+        {% for msg in get_flashed_messages() %}
+        {{ msg }}
+        {% endfor %}
+  <div style="color: white;font: normal 14px/14px 'Microsoft YaHei'">已有账户？<a href="/login"  class="register" >立即登录</a></div>
+  </form>
+  </body>
+</html>

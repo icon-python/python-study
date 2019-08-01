@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>登录</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+
+  <form class="box" action="/login" method="POST">
+  	  <h1>个人博客</h1>
+{#    <input type="text" placeholder="Your name">#}
+{#    <input type="password"  placeholder="Your email">#}
+{#    <input type="submit" class="contact-form-btn" value="Send">#}
+      {{ login_form.hidden_tag() }}
+        {% from "macros.html" import form_field_no_label %}
+            {{ form_field_no_label(login_form.phone) }}
+            {{ form_field_no_label(login_form.pwd) }}
+            {{ login_form.submit() }}
+        {% for msg in get_flashed_messages() %}
+        {{ msg }}
+        {% endfor %}
+  <div style="color: white;font: normal 14px/14px 'Microsoft YaHei'">忘记密码？<a href="/register"  class="register" >立即注册</a></div>
+  </form>
+  </body>
+</html>

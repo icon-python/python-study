@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>blog-{% block title %}lemon{% endblock %}</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='image/favicon.ico') }}">
+    <script src="{{ url_for('static', filename='js/jquery-1.12.4.min.js') }}"></script>
+    <style>
+        body{
+            background-color: #9c9c9c30;
+        }
+        #add_blog{
+            color: #6c757d;
+        }
+        #add_blog:hover{
+            color: red;
+        }
+        #fans, #followers{
+            color: #49a0ff;
+            cursor: pointer;
+        }
+        #fans:hover, #followers:hover{
+             color: red;
+        }
+    </style>
+    {% block style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    {% endblock %}
+    {% block script %}{% endblock %}
+</head>
+<body>
+{% block content %}{% endblock %}
+</body>
+{% block endscript %}{% endblock %}
+</html>

@@ -3,19 +3,23 @@
     {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/blog.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
     <style>
-        body{
+        body {
             background-color: #9c9c9c30;
         }
-    .box-card{
-        margin: 30px;
-    }
-    .box-card:hover{
-        transform: translate(-2px, -2px);
-    }
-    .art{
-        margin-top: 80px;
-    }
+
+        .box-card {
+            margin: 30px;
+        }
+
+        .box-card:hover {
+            transform: translate(-2px, -2px);
+        }
+
+        .art {
+            margin-top: 80px;
+        }
     </style>
 {% endblock %}
 {% block script %}
@@ -26,34 +30,96 @@
 {% block content %}
     {% include '_navbar.html' %}
     <div class="art">
-    {% for blog in blogs %}
-        <el-card class="box-card" id='c{{ loop.index }}' style="float: left;">
-            <div slot="header" class="clearfix">
-                <span style="font-weight: bold;color: #606266;">{{ blog.title }}</span>
-                <el-button style="float: right; padding: 3px 0" type="text"><a href="/blog/{{ blog.id }}"
-                style="text-decoration: none; color: rgba(43,43,43,0.77);
+        {% for blog in blogs %}
+            <el-card class="box-card" id='c{{ loop.index }}' style="float: left;">
+                <div slot="header" class="clearfix">
+                    <span style="font-weight: bold;color: #606266;">{{ blog.title }}</span>
+                    <el-button style="float: right; padding: 3px 0" type="text"><a href="/blog/{{ blog.id }}"
+                                                                                   style="text-decoration: none; color: rgba(43,43,43,0.77);
                 " onmouseover="this.style.color='red';" onmouseover="this.style.color='red';"
-                onmouseout="this.style.color='#606266';"
-                onclick="this.style.color= 'red';">查看全文</a>
-                </el-button>
-            </div>
-            <div v-for="p in 1" :key="p" class="text item">
-                <div style="color: rgba(77,77,77,0.70)">
-                    <span class="author">作者：{{ blog.author }}</span>
-                    <span class="create_time" style="display: inline-block;float: right;">{{ blog.create_time }}</span>
+                                                                                   onmouseout="this.style.color='#606266';"
+                                                                                   onclick="this.style.color= 'red';">查看全文</a>
+                    </el-button>
                 </div>
-                <br>
-                <div class="content" style="color: #909399">{{ blog.content | truncate(60) }}</div><br>
-            </div>
-        </el-card>
-    {% endfor %}</div>
+                <div v-for="p in 1" :key="p" class="text item">
+                    <div style="color: rgba(77,77,77,0.70)">
+                        <span class="author">作者：{{ blog.author }}</span>
+                        <span class="create_time"
+                              style="display: inline-block;float: right;">{{ blog.create_time }}</span>
+                    </div>
+                    <br>
+                    <div class="content" style="color: #909399">{{ blog.content | truncate(60) }}</div>
+                    <br>
+                </div>
+            </el-card>
+        {% endfor %}</div>
+    <div class="msg_box" style="display: none">
+        <el-button type="text" @click="open" style="margin-right: 8px" id="box"></el-button>
+        <el-button type="text" @click="open" style="margin-right: 8px" id="box2"></el-button>
+    </div>
 {% endblock %}
 
 {% block endscript %}
+    <script src="{{ url_for('static', filename='js/jquery-1.12.4.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/vue.js') }}"></script>
     <script src="{{ url_for('static', filename='js/index.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/jquery-1.12.4.min.js') }}"></script>
     <script>
+        var phA = new Array();
+        var phB = new Array();
+        $('#fans').click(function () {
+            $.ajax({
+                type: "POST",
+                url: "/get_fans_followers",
+                dataType: "json",
+                success: function (data) {
+                    var ph = data.fans;
+                    for (p in ph) {
+                        if(!phA.includes(ph[p])){phA.push(ph[p])}
+                    }
+                    {#alert('粉丝：' + phA);#}
+                    $('#box').click();
+                }
+            })
+        });
+        $('#followers').click(function () {
+            $.ajax({
+                type: "POST",
+                url: "/get_fans_followers",
+                dataType: "json",
+                success: function (data) {
+                    var ph = data.followers;
+                    for (p in ph) {
+                        if(!phB.includes(ph[p])){phB.push(ph[p])}
+                    }
+                    {#alert('关注的人：' + phA);#}
+                    $('#box2').click();
+                }
+            })
+        });
+        new Vue({
+            el: '#box',
+            methods: {
+                open() {
+                    this.$alert(phA.join(","), '所有粉丝', {
+                            confirmButtonText: '确定',
+                        }
+                    )
+                    ;
+                }
+            }
+        });
+        new Vue({
+            el: '#box2',
+            methods: {
+                open() {
+                    this.$alert(phB.join(","), '所有关注者', {
+                            confirmButtonText: '确定',
+                        }
+                    )
+                    ;
+                }
+            }
+        });
         {% for blog in blogs %}
             new Vue({
                 el: '#c{{ loop.index }}',
@@ -62,18 +128,18 @@
                 }
             });
         {% endfor %}
-        var bc =  $('.box-card');
+        var bc = $('.box-card');
         var bc_width = bc.width();
         var bodyWidth = $(document.body).width();
         console.log(bc_width, bodyWidth);
         var art = $('.art');
         art.css({
-            'width':(bc_width+65)*2,
+            'width': (bc_width + 65) * 2,
             {#'border':'1px solid red',#}
-            'display':'inline-block',
+            'display': 'inline-block',
         });
         console.log(art.width());
-        art.css('margin-left', (bodyWidth-art.width())/2);
+        art.css('margin-left', (bodyWidth - art.width()) / 2);
     </script>
 
 {% endblock %}

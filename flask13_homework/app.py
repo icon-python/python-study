@@ -194,6 +194,10 @@ def add_ctc():
     return {'format_time': format_time, 'temp_var': 20}
 
 
+@app.route('/test')
+def t():
+    return render_template('test.html')
+
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0')
     # app.run(debug=True)

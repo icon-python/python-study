@@ -26,7 +26,7 @@
         </ul>
         <span style="margin-right: 20px;color: #6c757d;">
         {% if phone %}
-            欢迎您，{{ phone }},
+            欢迎您，<span style="color: #49a0ff; margin-right: 15px;">{{ phone }}</span>
             粉丝数：
             <span id="fans" style="margin-right: 8px"></span>
             关注者：
@@ -41,36 +41,5 @@
     </div>
 </nav>
 <script>
-    $('#fans').click(function () {
-        $.ajax({
-            type: "POST",
-            url: "/get_fans_followers",
-            dataType: "json",
-            success: function (data) {
-                var ph = data.fans;
-                var phA = new Array();
-                for (p in ph) {
-                    phA.push(ph[p])
-                }
-                $.unique(phA);
-                alert('粉丝：' + phA);
-            }
-        })
-    });
-    $('#followers').click(function () {
-        $.ajax({
-            type: "POST",
-            url: "/get_fans_followers",
-            dataType: "json",
-            success: function (data) {
-                var ph = data.followers;
-                var phA = new Array();
-                for (p in ph) {
-                    phA.push(ph[p])
-                }
-                $.unique(phA);
-                alert('关注的人：'+ phA);
-            }
-        })
-    })
+
 </script>

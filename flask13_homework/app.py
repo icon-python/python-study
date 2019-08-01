@@ -151,11 +151,11 @@ def blog():
 def blog_id(bid):
     if request.method == "GET":
         blogs = Blog.query.filter_by(id=bid).first_or_404()
-        return render_template('blog_bid.html', blog=blogs)
+        return render_template('blog_bid.html', blog=blogs, bid=bid)
     if request.method == "POST":
         title = request.form.get('title')
         blogs = Blog.query.filter_by(title=title).first_or_404()
-        return render_template('blog_bid.html', blog=blogs)
+        return render_template('blog_bid.html', blog=blogs, bid=bid)
 
 
 @app.route('/blog/add', methods=["GET", "POST"], endpoint='blog_add')

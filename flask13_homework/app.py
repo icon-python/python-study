@@ -102,10 +102,12 @@ def login():
         phone = request.form.get('phone')
         pwd = request.form.get('pwd')
         phone_db = User.query.filter_by(phone=phone).first()
-        if login_form.validate():
-            if pwd == phone_db.pwd:
+        if login_form.validate() and phone_db is not None:
+            if pwd == phone_db.pwd and phone_db.phone:
                 session['phone'] = phone
                 return redirect(url_for('blog'))
+            else:
+                return render_template('login.html', login_form=LoginForm())
         else:
             if not phone_db:
                 flash('该手机号尚未注册')

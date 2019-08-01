@@ -20,7 +20,7 @@ class AddForm(FlaskForm):
 
 class LoginForm(FlaskForm):
     phone = StringField("手机号码", render_kw={"placeholder": "请输入手机号"}, validators=[Regexp(r'^1[3,5,7,8,9]\d{9}$', message='手机号格式错误或不存在'), DataRequired('手机号码不能为空')])
-    pwd = PasswordField("密码", render_kw={"placeholder": "请输入密码"}, validators=[Length(6, 32, '密码错误'), DataRequired('密码不能为空')])
+    pwd = PasswordField("密码", render_kw={"placeholder": "请输入密码"}, validators=[Length(6, 32, '账号不存在或密码错误'), DataRequired('密码不能为空')])
     submit = SubmitField("登录")
 
 
